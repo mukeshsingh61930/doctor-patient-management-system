@@ -1,0 +1,47 @@
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title">Menu</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+
+<div class="offcanvas-body">
+    <ul class="list-group list-group-flush">
+
+        <li class="list-group-item" *ngIf="permissions.canManageStaff() || permissions.canManageSlots()">
+            <strong>Administration</strong>
+            <ul class="list-unstyled ps-3 mt-2">
+                <li><a routerLink="/dashboard" class="nav-link" (click)="close()">Dashboard</a></li>
+                <li *ngIf="permissions.canManageStaff()"><a routerLink="/staff" class="nav-link" (click)="close()">Staff Users</a></li>
+                <li *ngIf="permissions.canManageSlots()"><a routerLink="/patients/slots" class="nav-link" (click)="close()">Time Slots</a></li>
+            </ul>
+        </li>
+
+        <li class="list-group-item" *ngIf="permissions.canViewPatients() || permissions.canViewAllAppointments()">
+            <strong>Clinic</strong>
+            <ul class="list-unstyled ps-3 mt-2">
+                <li><a routerLink="/appointments" class="nav-link" (click)="close()">Appointments</a></li>
+                <li><a routerLink="/patients" class="nav-link" (click)="close()">Patients</a></li>
+            </ul>
+        </li>
+
+        <li class="list-group-item" *ngIf="permissions.canBookOwnAppointment()">
+            <strong>Patient</strong>
+            <ul class="list-unstyled ps-3 mt-2">
+                <li><a routerLink="/dashboard" class="nav-link" (click)="close()">My Dashboard</a></li>
+                <li><a routerLink="/appointments" class="nav-link" (click)="close()">My Appointments</a></li>
+            </ul>
+        </li>
+
+        <li class="list-group-item">
+            <button type="button" class="btn btn-outline-danger btn-sm w-100" (click)="logout()">Logout</button>
+        </li>
+
+        <!-- <li class="list-group-item">
+            <strong>Help</strong>
+            <ul class="list-unstyled ps-3 mt-2">
+                <li><a routerLink="/help/user-guide" class="nav-link">User Guide</a></li>
+                <li><a routerLink="/help/support" class="nav-link">Contact Support</a></li>
+            </ul>
+        </li> -->
+
+    </ul>
+</div>

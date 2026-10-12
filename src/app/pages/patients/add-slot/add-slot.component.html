@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 text-end">
+            <div class="top-panel d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center text-start">
+                    <h6 class="mb-0 me-4 small">{{ isUpdateMode ? 'Update Slot' : 'Create Slot' }}</h6>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" [routerLink]="['/patients/slots']">
+                        Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <form [formGroup]="slotForm" class="mt-2">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Start Time</label>
+                        <input type="time" formControlName="startTime" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>End Time</label>
+                        <input type="time" formControlName="endTime" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label>Slot Status</label>
+                        <select formControlName="slotStatus" class="form-control">
+                            <option value="">-- Select --</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="BOOKED">Booked</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>

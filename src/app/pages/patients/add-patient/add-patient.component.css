@@ -1,0 +1,12 @@
+.top-panel {
+    background: #fff;
+    position: relative;
+    border-radius: 0.75rem;
+    box-shadow: 0rem 0 0.875rem 0rem rgba(21, 21, 21, 0.15);
+    margin-top: 1rem;
+    padding: 0.685rem;
+    -webkit-border-radius: 0.75rem;
+    -moz-border-radius: 0.75rem;
+    -ms-border-radius: 0.75rem;
+    -o-border-radius: 0.75rem;
+}

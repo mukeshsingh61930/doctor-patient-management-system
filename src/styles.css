@@ -1,0 +1,10 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+/* You can add global styles to this file, and also import other style files */
+.offcanvas.custom-offcanvas-width {
+    width: 300px !important;
+}
+
+body {
+    background-color: rgb(232, 236, 239) !important;
+}

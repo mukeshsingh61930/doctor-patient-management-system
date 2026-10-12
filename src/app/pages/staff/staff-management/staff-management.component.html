@@ -1,0 +1,193 @@
+<div class="container-fluid">
+    <div class="row g-4">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">{{ editingStaffId ? 'Edit Staff Profile' : 'Create Staff Profile' }}</h6>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="staffForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Name *</label>
+                                <input class="form-control" formControlName="name" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Role *</label>
+                                <select class="form-control" formControlName="role">
+                                    <option *ngFor="let role of roleOptions" [value]="role">{{ role }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>User Id *</label>
+                                <input class="form-control" formControlName="userId" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Password *</label>
+                                <input class="form-control" formControlName="password" type="password" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Mobile No *</label>
+                                <input class="form-control" formControlName="mobNo" type="tel" maxlength="10" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Employee Code</label>
+                                <input class="form-control" formControlName="employeeCode" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Department</label>
+                                <input class="form-control" formControlName="department" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Designation</label>
+                                <input class="form-control" formControlName="designation" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Qualification</label>
+                                <input class="form-control" formControlName="qualification" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Joining Date</label>
+                                <input class="form-control" type="date" formControlName="joiningDate" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Address</label>
+                            <input class="form-control" formControlName="address" />
+                        </div>
+
+                        <div class="row" *ngIf="isDoctorRole()">
+                            <div class="col-md-5 mb-3">
+                                <label>Specialization</label>
+                                <input class="form-control" formControlName="specialization" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label>Registration No</label>
+                                <input class="form-control" formControlName="registrationNo" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label>Fee</label>
+                                <input class="form-control" type="number" formControlName="consultationFee" />
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="isNurseRole()">
+                            <div class="col-md-6 mb-3">
+                                <label>Shift</label>
+                                <input class="form-control" formControlName="shift" />
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label>Ward</label>
+                                <input class="form-control" formControlName="ward" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Status</label>
+                            <select class="form-control" formControlName="status">
+                                <option value="ACTIVE">Active</option>
+                                <option value="INACTIVE">Inactive</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary flex-fill" (click)="saveStaffUser()"
+                                [disabled]="staffForm.invalid">
+                                {{ editingStaffId ? 'Update Staff' : 'Create Staff' }}
+                            </button>
+                            <button *ngIf="editingStaffId" type="button" class="btn btn-outline-secondary"
+                                (click)="resetForm()">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Staff Directory</h6>
+                    <span class="badge bg-secondary">{{ staffProfiles.length }} total</span>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Employee</th>
+                                <th>Role</th>
+                                <th>Department</th>
+                                <th>Profile</th>
+                                <th>Mobile</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let staff of staffProfiles; let i = index">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ staff.user?.name }}</td>
+                                <td>{{ staff.employeeCode }}</td>
+                                <td>{{ staff.user?.role }}</td>
+                                <td>{{ staff.department }}</td>
+                                <td>
+                                    <span *ngIf="staff.doctorProfile">
+                                        {{ staff.doctorProfile.specialization }} {{ staff.doctorProfile.registrationNo ? '- ' + staff.doctorProfile.registrationNo : '' }}
+                                    </span>
+                                    <span *ngIf="staff.nurseProfile">
+                                        {{ staff.nurseProfile.shift }} {{ staff.nurseProfile.ward ? '- ' + staff.nurseProfile.ward : '' }}
+                                    </span>
+                                    <span *ngIf="!staff.doctorProfile && !staff.nurseProfile" class="text-muted">General</span>
+                                </td>
+                                <td>{{ staff.user?.mobNo }}</td>
+                                <td>
+                                    <span class="badge" [ngClass]="staff.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'">
+                                        {{ staff.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-2"
+                                        (click)="editStaff(staff)">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="btn btn-sm"
+                                        [ngClass]="staff.status === 'ACTIVE' ? 'btn-outline-warning' : 'btn-outline-success'"
+                                        (click)="toggleStatus(staff)">
+                                        {{ staff.status === 'ACTIVE' ? 'Deactivate' : 'Activate' }}
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="staffProfiles.length === 0">
+                                <td colspan="9" class="text-center text-muted py-4">No staff profiles found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
