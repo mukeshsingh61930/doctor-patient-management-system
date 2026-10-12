@@ -1,0 +1,221 @@
+:host {
+    display: block;
+    min-height: 100%;
+    background: #f6f8fb;
+    color: #172033;
+}
+
+.menu-panel {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 18px;
+    background:
+        linear-gradient(180deg, #ffffff 0%, #f6f8fb 46%, #eef7f3 100%);
+}
+
+.menu-topbar {
+    display: grid;
+    grid-template-columns: 46px 1fr 34px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.brand-mark {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #0f766e;
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 0;
+    box-shadow: 0 10px 22px rgba(15, 118, 110, 0.2);
+}
+
+.menu-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.menu-subtitle {
+    margin: 2px 0 0;
+    color: #667085;
+    font-size: 12px;
+}
+
+.close-button {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d8dee8;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #475467;
+    line-height: 1;
+    transition: all 0.16s ease;
+}
+
+.close-button:hover {
+    border-color: #9aa8bb;
+    color: #172033;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #e7f6f2;
+    color: #0f766e;
+    font-weight: 800;
+}
+
+.profile-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-name {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+.role-pill {
+    width: fit-content;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #3730a3;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.menu-nav {
+    flex: 1;
+    padding: 20px 0 16px;
+    overflow-y: auto;
+}
+
+.nav-section {
+    margin-bottom: 20px;
+}
+
+.section-label {
+    display: block;
+    margin: 0 0 8px 8px;
+    color: #7a8699;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0;
+}
+
+.menu-link {
+    position: relative;
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    margin-bottom: 6px;
+    padding: 6px 12px 6px 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: #344054;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.16s ease;
+}
+
+.menu-link:hover {
+    background: #ffffff;
+    border-color: #d9e3ef;
+    color: #0f172a;
+    transform: translateX(2px);
+}
+
+.menu-link.is-active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 118, 110, 0.22);
+}
+
+.nav-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: #edf3f8;
+    color: #475467;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.menu-link.is-active .nav-icon {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+.menu-footer {
+    display: grid;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid #dce3ec;
+}
+
+.status-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #475467;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #16a34a;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.12);
+}
+
+.logout-button {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fff7f7;
+    color: #b42318;
+    font-weight: 800;
+    transition: all 0.16s ease;
+}
+
+.logout-button:hover {
+    background: #fee4e2;
+    border-color: #fda29b;
+}

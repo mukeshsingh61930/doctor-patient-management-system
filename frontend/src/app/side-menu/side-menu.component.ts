@@ -23,6 +23,20 @@ export class SideMenuComponent {
     return this.authService.hasAnyRole(roles);
   }
 
+  getDisplayName(): string {
+    return this.authService.getName() || this.authService.getLoginUserId() || 'Clinic User';
+  }
+
+  getRole(): string {
+    return this.authService.getRole() || 'USER';
+  }
+
+  getInitials(): string {
+    const nameParts = this.getDisplayName().trim().split(/\s+/);
+    const initials = nameParts.slice(0, 2).map(part => part.charAt(0)).join('');
+    return (initials || 'DP').toUpperCase();
+  }
+
   logout() {
     this.close();
     this.authService.logout();
