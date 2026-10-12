@@ -1,27 +1,65 @@
-# DoctorPatient
+# Doctor Patient Management System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Full-stack doctor-patient management application built as a monorepo.
 
-## Development server
+## Structure
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```text
+doctor-patient-management-system/
+  frontend/  Angular application
+  backend/   Spring Boot REST API
+```
 
-## Code scaffolding
+## Frontend
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+cd frontend
+npm install
+npm start
+```
 
-## Build
+Production build:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+cd frontend
+npm run build
+```
 
-## Running unit tests
+## Backend
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-## Running end-to-end tests
+On Windows:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+cd backend
+mvnw.cmd spring-boot:run
+```
 
-## Further help
+## Production Profiles
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Run backend in production with:
+
+```bash
+SPRING_PROFILES_ACTIVE=prod
+```
+
+Required production environment variables:
+
+```text
+SPRING_DATASOURCE_URL
+SPRING_DATASOURCE_USERNAME
+SPRING_DATASOURCE_PASSWORD
+APP_CORS_ALLOWED_ORIGINS
+APP_JWT_SECRET
+```
+
+Typical deployment:
+
+```text
+https://yourdomain.com      -> Angular frontend
+https://api.yourdomain.com  -> Spring Boot backend
+```
