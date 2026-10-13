@@ -89,7 +89,7 @@ export class AddSlotComponent {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Failed to update slot. Please try again.'
+            text: this.commonService.getErrorMessage(err, 'Failed to update slot. Please try again.')
           });
 
           console.error("Error occurred in updateSlot", err);
@@ -112,7 +112,7 @@ export class AddSlotComponent {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Failed to save slot. Please try again.'
+            text: this.commonService.getErrorMessage(err, 'Failed to save slot. Please try again.')
           });
 
           console.error("Error occurred in saveSlot", err);

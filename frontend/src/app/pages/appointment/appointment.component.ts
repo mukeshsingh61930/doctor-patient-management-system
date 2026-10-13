@@ -28,6 +28,19 @@ export class AppointmentComponent implements OnInit {
   consultationForm!: FormGroup;
   selectedAppointment: any;
   statusOptions = ['CONFIRM', 'PENDING', 'CANCELLED', 'BOOKED'];
+  calendarTooltip = {
+    visible: false,
+    left: 0,
+    top: 0,
+    appointmentId: '',
+    patientName: '',
+    patientMobile: '',
+    doctorName: '',
+    specialization: '',
+    appointmentDate: '',
+    slotTime: '',
+    status: ''
+  };
 
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -41,6 +54,8 @@ export class AppointmentComponent implements OnInit {
       right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
     dateClick: (arg) => this.onCalendarDateClick(arg.dateStr),
+    eventMouseEnter: (info) => this.showCalendarTooltip(info),
+    eventMouseLeave: () => this.hideCalendarTooltip(),
     events: []
   };
 
@@ -210,6 +225,36 @@ export class AppointmentComponent implements OnInit {
     this.appointmentForm.patchValue({ appointmentDate: date });
   }
 
+  showCalendarTooltip(info: any) {
+    const props = info.event.extendedProps || {};
+    const tooltipWidth = 320;
+    const tooltipHeight = 230;
+    const gap = 14;
+    const left = Math.min(info.jsEvent.clientX + gap, window.innerWidth - tooltipWidth - gap);
+    const top = Math.min(info.jsEvent.clientY + gap, window.innerHeight - tooltipHeight - gap);
+
+    this.calendarTooltip = {
+      visible: true,
+      left: Math.max(gap, left),
+      top: Math.max(gap, top),
+      appointmentId: props.appointmentId || '',
+      patientName: props.patientName || 'Patient',
+      patientMobile: props.patientMobile || '',
+      doctorName: props.doctorName || 'Doctor',
+      specialization: props.specialization || '',
+      appointmentDate: props.appointmentDate || '',
+      slotTime: props.slotTime || '',
+      status: props.status || ''
+    };
+  }
+
+  hideCalendarTooltip() {
+    this.calendarTooltip = {
+      ...this.calendarTooltip,
+      visible: false
+    };
+  }
+
   bookAppointment() {
     if (this.appointmentForm.invalid) {
       this.appointmentForm.markAllAsTouched();
@@ -244,7 +289,7 @@ export class AppointmentComponent implements OnInit {
       error: (err: any) => {
         Swal.fire({
           title: 'Error!',
-          text: err?.error?.message || err?.error || 'Please try again.',
+          text: this.commonService.getErrorMessage(err),
           icon: 'error',
           confirmButtonText: 'OK'
         });
@@ -283,7 +328,7 @@ export class AppointmentComponent implements OnInit {
       error: (err: any) => {
         Swal.fire({
           title: 'Error!',
-          text: err?.error?.message || err?.error || 'Please try again.',
+          text: this.commonService.getErrorMessage(err),
           icon: 'error',
           confirmButtonText: 'OK'
         });
@@ -320,26 +365,40 @@ export class AppointmentComponent implements OnInit {
       const startTime = appointment.slot?.startTime;
       const endTime = appointment.slot?.endTime;
       const patientName = appointment.patient?.patientName || 'Appointment';
-      const doctorName = appointment.doctor?.name ? ` with Dr. ${appointment.doctor.name}` : '';
-      const timeText = startTime && endTime ? ` (${startTime} - ${endTime})` : '';
+      const doctorName = appointment.doctor?.name || '';
+      const slotTime = startTime && endTime ? `${startTime} - ${endTime}` : 'Slot not assigned';
+      const timeText = startTime && endTime ? ` (${slotTime})` : '';
 
       return {
         id: String(appointment.appointmentId),
-        title: `${patientName}${doctorName}${timeText}`,
+        title: `${patientName}${doctorName ? ' with Dr. ' + doctorName : ''}${timeText}`,
         start: startTime ? `${appointment.appointmentDate}T${startTime}` : appointment.appointmentDate,
         end: endTime ? `${appointment.appointmentDate}T${endTime}` : undefined,
-        color: this.getEventColor(appointment.appointmentStatus)
+        color: this.getEventColor(appointment.appointmentStatus),
+        extendedProps: {
+          appointmentId: appointment.appointmentId,
+          patientName,
+          patientMobile: appointment.patient?.mobileNo || '',
+          doctorName,
+          specialization: appointment.doctor?.specialization || '',
+          appointmentDate: appointment.appointmentDate,
+          slotTime,
+          status: appointment.appointmentStatus || ''
+        }
       };
     });
   }
 
   private getEventColor(status: string): string {
     if (status === 'CANCELLED') {
-      return '#6c757d';
+      return '#667085';
     }
     if (status === 'PENDING') {
-      return '#ffc107';
+      return '#d99a2b';
     }
-    return '#198754';
+    if (status === 'CONFIRM') {
+      return '#15803d';
+    }
+    return '#0f766e';
   }
 }

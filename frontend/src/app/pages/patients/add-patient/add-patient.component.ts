@@ -211,7 +211,7 @@ export class AddPatientComponent {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err?.error?.message || err?.error || 'Failed to save patient. Please try again.'
+          text: this.commonService.getErrorMessage(err, 'Failed to save patient. Please try again.')
         });
 
         console.error("Error occurred in savePatient", err);

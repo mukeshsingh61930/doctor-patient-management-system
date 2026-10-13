@@ -58,10 +58,10 @@ export class SlotComponent {
             // refresh list
             this.getAllSlot();
           },
-          error: () => {
+          error: (err) => {
             Swal.fire(
               'Error!',
-              'Something went wrong while deleting.',
+              this.commonService.getErrorMessage(err, 'Something went wrong while deleting.'),
               'error'
             );
           }

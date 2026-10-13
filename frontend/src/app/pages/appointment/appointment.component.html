@@ -150,3 +150,37 @@
         </div>
     </div>
 </div>
+
+<div class="calendar-hover-card" *ngIf="calendarTooltip.visible"
+    [style.left.px]="calendarTooltip.left" [style.top.px]="calendarTooltip.top">
+    <div class="hover-card-top">
+        <div>
+            <span class="hover-label">Appointment</span>
+            <h6>#{{ calendarTooltip.appointmentId }}</h6>
+        </div>
+        <span class="status-pill">{{ calendarTooltip.status }}</span>
+    </div>
+
+    <div class="hover-detail">
+        <span>Patient</span>
+        <strong>{{ calendarTooltip.patientName }}</strong>
+        <small *ngIf="calendarTooltip.patientMobile">{{ calendarTooltip.patientMobile }}</small>
+    </div>
+
+    <div class="hover-detail">
+        <span>Doctor</span>
+        <strong>Dr. {{ calendarTooltip.doctorName }}</strong>
+        <small *ngIf="calendarTooltip.specialization">{{ calendarTooltip.specialization }}</small>
+    </div>
+
+    <div class="hover-grid">
+        <div>
+            <span>Date</span>
+            <strong>{{ calendarTooltip.appointmentDate | date: 'dd MMM yyyy' }}</strong>
+        </div>
+        <div>
+            <span>Slot</span>
+            <strong>{{ calendarTooltip.slotTime }}</strong>
+        </div>
+    </div>
+</div>

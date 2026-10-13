@@ -29,6 +29,20 @@ export class HeaderComponent {
     return this.authService.hasAnyRole(roles);
   }
 
+  getDisplayName(): string {
+    return this.authService.getName() || this.authService.getLoginUserId() || 'User';
+  }
+
+  getInitials(): string {
+    const parts = this.getDisplayName().trim().split(/\s+/).filter(Boolean);
+
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+
+    return (parts[0] || 'U').slice(0, 2).toUpperCase();
+  }
+
   logout() {
     this.authService.logout();
   }

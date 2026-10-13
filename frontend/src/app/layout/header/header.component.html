@@ -1,28 +1,40 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a (click)="toggleSideMenu()" class="navbar-brand" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="25"
-                height="25" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-            </svg></a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" routerLink="/dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item" *ngIf="permissions.canViewPatients()">
-                    <a class="nav-link" routerLink="/patients">Patients</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/appointments">Appointments</a>
-                </li>
-            </ul>
-            <div class="d-flex align-items-center gap-3">
-                <span class="navbar-text small">
-                    {{ authService.getName() || authService.getLoginUserId() }} ({{ authService.getRole() }})
-                </span>
-                <button type="button" class="btn btn-outline-light btn-sm" (click)="logout()">Logout</button>
-            </div>
-        </div>
+<header class="app-header-shell">
+    <div class="header-left">
+        <button type="button" class="menu-trigger" (click)="toggleSideMenu()" aria-label="Open navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <a class="brand-block" routerLink="/dashboard" aria-label="Clinic Console dashboard">
+            <span class="brand-mark">DP</span>
+            <span class="brand-copy">
+                <strong>Clinic Console</strong>
+                <small>Doctor Patient System</small>
+            </span>
+        </a>
     </div>
-</nav>
+
+    <nav class="header-nav" aria-label="Primary navigation">
+        <a routerLink="/dashboard" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+            Dashboard
+        </a>
+        <a *ngIf="permissions.canViewPatients()" routerLink="/patients" routerLinkActive="is-active">
+            Patients
+        </a>
+        <a routerLink="/appointments" routerLinkActive="is-active">
+            Appointments
+        </a>
+    </nav>
+
+    <div class="header-user">
+        <div class="user-chip">
+            <span class="user-avatar">{{ getInitials() }}</span>
+            <span class="user-copy">
+                <strong>{{ getDisplayName() }}</strong>
+                <small>{{ authService.getRole() }}</small>
+            </span>
+        </div>
+        <button type="button" class="logout-mini" (click)="logout()">Logout</button>
+    </div>
+</header>

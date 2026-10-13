@@ -1,8 +1,5 @@
 package com.doctor_patient.controller;
 
-import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,21 +27,14 @@ public class LoginController {
 	
 	@PostMapping("/loginUser")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
-	    Optional<User> loggedInUser = loginService.validateUser(loginDTO);
-	    if (loggedInUser.isPresent()) {
-	    	User user = loggedInUser.get();
-	        return ResponseEntity.ok(new LoginResponseDTO(
-	        		jwtService.generateToken(user),
-	        		"Bearer",
-	        		user.getUserId(),
-	        		user.getName(),
-	        		user.getRole(),
-	        		user.getStatus()));
-	    } else {
-	        return ResponseEntity
-	                .status(HttpStatus.UNAUTHORIZED)
-	                .body("Invalid username/password or inactive user");
-	    }
+		User user = loginService.validateUser(loginDTO);
+		return ResponseEntity.ok(new LoginResponseDTO(
+				jwtService.generateToken(user),
+				"Bearer",
+				user.getUserId(),
+				user.getName(),
+				user.getRole(),
+				user.getStatus()));
 	}
 
 }

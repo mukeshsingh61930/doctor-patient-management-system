@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserRole } from 'src/app/service/auth.service';
+import { CommonService } from 'src/app/service/common.service';
 import { StaffService } from 'src/app/service/staff.service';
 import Swal from 'sweetalert2';
 
@@ -18,7 +19,8 @@ export class StaffManagementComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private commonService: CommonService
   ) { }
 
   ngOnInit(): void {
@@ -80,7 +82,7 @@ export class StaffManagementComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err?.error?.message || err?.error || 'Unable to save staff profile.'
+          text: this.commonService.getErrorMessage(err, 'Unable to save staff profile.')
         });
       }
     });
@@ -128,7 +130,7 @@ export class StaffManagementComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err?.error?.message || err?.error || 'Unable to update staff status.'
+          text: this.commonService.getErrorMessage(err, 'Unable to update staff status.')
         });
       }
     });

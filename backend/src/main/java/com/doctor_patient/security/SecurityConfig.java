@@ -1,11 +1,14 @@
 package com.doctor_patient.security;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,9 +45,11 @@ public class SecurityConfig {
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.exceptionHandling(exceptions -> exceptions
 						.authenticationEntryPoint((request, response, authException) ->
-								response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"))
+								writeErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized",
+										"Login required or token is invalid"))
 						.accessDeniedHandler((request, response, accessDeniedException) ->
-								response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden")))
+								writeErrorResponse(response, HttpServletResponse.SC_FORBIDDEN, "Forbidden",
+										"You do not have permission to perform this action")))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers("/api/v1/login/**", "/api/v1/states/**", "/api/v1/cities/**").permitAll()
@@ -79,6 +84,15 @@ public class SecurityConfig {
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
+	}
+
+	private void writeErrorResponse(HttpServletResponse response, int status, String error, String message)
+			throws IOException {
+		response.setStatus(status);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.getWriter().write(String.format(
+				"{\"timestamp\":\"%s\",\"status\":%d,\"error\":\"%s\",\"message\":\"%s\"}",
+				LocalDateTime.now(), status, error, message));
 	}
 
 	@Bean

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { CommonService } from '../service/common.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
+    private commonService: CommonService,
     private _router: Router
   ) {
 
@@ -25,12 +27,23 @@ export class LoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = this.fb.group({
-      userId: [''],
-      password: ['']
+      userId: ['', Validators.required],
+      password: ['', Validators.required]
     })
   }
 
   login() {
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      Swal.fire({
+        title: 'Required fields',
+        text: 'Please enter User Id and Password.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     this.authService.login(this.loginForm.value).subscribe(
       (res: any) => {
         localStorage.clear();
@@ -46,7 +59,7 @@ export class LoginComponent implements OnInit {
       (err: any) => {
         Swal.fire({
           title: 'Error!',
-          text: 'Invalid credentials. Please try again.',
+          text: this.commonService.getErrorMessage(err, 'Unable to login. Please try again.'),
           icon: 'error',
           confirmButtonText: 'OK'
         });

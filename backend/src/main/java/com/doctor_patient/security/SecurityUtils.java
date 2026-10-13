@@ -12,10 +12,10 @@ public final class SecurityUtils {
 	}
 
 	public static AuthenticatedUser currentUser(Authentication authentication) {
-		if (authentication == null || !(authentication.getPrincipal() instanceof AuthenticatedUser user)) {
+		if (authentication == null || !(authentication.getPrincipal() instanceof AuthenticatedUser)) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Login required");
 		}
-		return user;
+		return (AuthenticatedUser) authentication.getPrincipal();
 	}
 
 	public static boolean hasRole(Authentication authentication, Role role) {

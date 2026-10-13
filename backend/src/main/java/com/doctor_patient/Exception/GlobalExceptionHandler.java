@@ -29,6 +29,19 @@ public class GlobalExceptionHandler {
 		return buildResponse(HttpStatus.NOT_FOUND, "Requested resource was not found");
 	}
 
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+		return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+	}
+
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+		String message = ex.getMessage() == null || ex.getMessage().isBlank()
+				? "Something went wrong. Please try again."
+				: ex.getMessage();
+		return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, message);
+	}
+
 	private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
 		Map<String, Object> body = new HashMap<>();
 		body.put("timestamp", LocalDateTime.now());

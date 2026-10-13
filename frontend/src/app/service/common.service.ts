@@ -11,6 +11,43 @@ export class CommonService {
 
   private baseUrl = `${environment.apiBaseUrl}/`;
 
+  getErrorMessage(error: any, fallback = 'Something went wrong. Please try again.'): string {
+    if (!error) {
+      return fallback;
+    }
+
+    if (error.status === 0) {
+      return 'Unable to connect to server. Please check backend service.';
+    }
+
+    const body = error.error;
+
+    if (typeof body === 'string' && body.trim()) {
+      return body;
+    }
+
+    if (body?.message) {
+      return body.message;
+    }
+
+    if (body?.error && typeof body.error === 'string') {
+      return body.error;
+    }
+
+    if (Array.isArray(body?.errors) && body.errors.length > 0) {
+      return body.errors
+        .map((item: any) => item?.defaultMessage || item?.message || item)
+        .filter(Boolean)
+        .join(', ');
+    }
+
+    if (error.message && !error.message.includes('Http failure response')) {
+      return error.message;
+    }
+
+    return fallback;
+  }
+
   getAllState() {
     return this._http.get(`${this.baseUrl}` + "states/allState");
   }

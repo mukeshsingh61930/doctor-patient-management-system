@@ -83,10 +83,10 @@ export class PatientRegistrationComponent {
             // refresh list
             this.getAllpatient();
           },
-          error: () => {
+          error: (err) => {
             Swal.fire(
               'Error!',
-              'Something went wrong while deleting.',
+              this.commonService.getErrorMessage(err, 'Something went wrong while deleting.'),
               'error'
             );
           }
@@ -121,7 +121,7 @@ export class PatientRegistrationComponent {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err?.error?.message || err?.error || 'Unable to update patient status.'
+          text: this.commonService.getErrorMessage(err, 'Unable to update patient status.')
         });
       }
     });
