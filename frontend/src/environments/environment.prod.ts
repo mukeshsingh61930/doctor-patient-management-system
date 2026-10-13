@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://your-backend-domain.com/api/v1'
+  apiBaseUrl: 'https://doctor-patient-backend.onrender.com/api/v1'
 };
